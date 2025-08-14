@@ -21,7 +21,7 @@ class AppException extends Exception
     public function __construct(
         string $message = 'There is a problem in our side, we will fix that very soon.',
         int $http_status_code = 500,
-        int $code = 500,
+        int $code = 0,
         Throwable $previous = null
     )
     {

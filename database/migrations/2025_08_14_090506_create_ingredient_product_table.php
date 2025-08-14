@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ingredients', function (Blueprint $table) {
+        Schema::create('ingredient_product', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('ingredient_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             $table->enum('uom', ['g'])->default('g')->comment('for now only grams is supported as UOM.');
-            $table->decimal('total_amount');
-            $table->decimal('current_amount');
-            $table->boolean('is_low_amount_alert_email_sent')->default(false);
-            $table->timestamps();
+            $table->integer('amount');
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingredients');
+        Schema::dropIfExists('ingredient_product');
     }
 };

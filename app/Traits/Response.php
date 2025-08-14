@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
-use Exception;
+use Throwable;
 
 trait Response
 {
@@ -37,11 +37,11 @@ trait Response
     /**
      * get the exception response
      *
-     * @param Exception $e
+     * @param Throwable $e
      * @param bool $report
      * @return JsonResponse
      */
-    protected function getExceptionResponse(Exception $e, bool $report = true): JsonResponse
+    protected function getExceptionResponse(Throwable $e, bool $report = true): JsonResponse
     {
         $errors  = [];
         $message = 'OOPS! there is a problem in our side! we got your problem and we will fix that very soon.';

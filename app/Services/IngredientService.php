@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Order;
+use App\Mail\LowStockAlert;
+use Illuminate\Support\Facades\Mail;
 
 class IngredientService
 {
@@ -24,9 +26,7 @@ class IngredientService
                     $threshold = config('app.stock_threshold_percentage');
                     if (((($ingredient->current_amount / $ingredient->total_amount) * 100) < $threshold) &&
                         !$ingredient->is_low_amount_alert_email_sent) {
-                        /**
-                         * @TODO: Send email to merchant
-                         */
+                        Mail::to('merchant@example.com')->send(new LowStockAlert($ingredient));
                         $ingredient->is_low_amount_alert_email_sent = true;
                     }
                 }

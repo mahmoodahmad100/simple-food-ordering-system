@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Stock Threshold Percentage
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the percentage threshold for low stock alerts.
+    | When an ingredient's current amount falls below this percentage of
+    | the total amount, a low stock alert email will be sent.
+    |
+    */
+
+    'stock_threshold_percentage' => env('STOCK_THRESHOLD_PERCENTAGE', 50),
+
 ];

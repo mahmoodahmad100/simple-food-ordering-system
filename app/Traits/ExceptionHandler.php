@@ -6,6 +6,7 @@ use Throwable;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\AppException;
 use Illuminate\Http\Request;
 
 trait ExceptionHandler
@@ -50,6 +51,13 @@ trait ExceptionHandler
                 }
         
                 return $this->getResponse($errors, 422, $e->getMessage());
+            }
+        });
+
+        // Handle AppException
+        $this->renderable(function (AppException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return $this->getResponse([], $e->getHttpStatusCode(), $e->getMessage());
             }
         });
         

@@ -25,8 +25,8 @@ class OrderController extends Controller
     {
         return $this->getResponse(
             $this->orderService->create(array_merge($request->validated(), ['user_id' => auth()->user()->id])),
-            'Order created successfully',
-            Response::HTTP_CREATED
+            Response::HTTP_CREATED,
+            'Order created successfully'
         );
     }
 }

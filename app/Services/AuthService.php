@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Exceptions\AppException;
 
 class AuthService
 {
@@ -16,7 +17,7 @@ class AuthService
     public function login(array $credentials)
     {
         if (!auth()->attempt($credentials)) {
-            throw new \Exception('Invalid credentials');
+            throw new AppException('Invalid credentials', 422);
         }
 
         $user = auth()->user();

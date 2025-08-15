@@ -25,6 +25,6 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->handleExceptions();
+        $this->registerExceptionHandlers();
     }
 } 

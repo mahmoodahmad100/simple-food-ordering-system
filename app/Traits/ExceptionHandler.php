@@ -18,7 +18,7 @@ trait ExceptionHandler
      *
      * @return void
      */
-    public function handleExceptions()
+    public function registerExceptionHandlers()
     {
         $this->reportable(function (Throwable $e) {
             //

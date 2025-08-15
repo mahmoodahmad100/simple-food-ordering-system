@@ -242,6 +242,7 @@ The API uses a consistent response format for both success and error responses:
    ```bash
    php artisan test --coverage
    ```
+   **FYI:** current test coverage is **96.7%** as in the below screenshot.
 
 ![Test Results with Coverage](test_result_with_coverage.png)
 

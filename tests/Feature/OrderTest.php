@@ -97,4 +97,123 @@ class OrderTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function test_order_creation_with_multiple_products()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $product1 = Product::create(['name' => 'Product 1']);
+        $product2 = Product::create(['name' => 'Product 2']);
+        
+        $ingredient1 = Ingredient::create(['name' => 'Ingredient 1', 'total_amount' => 100, 'current_amount' => 100]);
+        $ingredient2 = Ingredient::create(['name' => 'Ingredient 2', 'total_amount' => 200, 'current_amount' => 200]);
+        
+        $product1->ingredients()->attach($ingredient1->id, ['amount' => 10]);
+        $product2->ingredients()->attach($ingredient2->id, ['amount' => 20]);
+
+        $data = [
+            'products' => [
+                ['product_id' => $product1->id, 'quantity' => 2],
+                ['product_id' => $product2->id, 'quantity' => 1],
+            ],
+        ];
+
+        $response = $this->post('/api/v1/orders', $data, ['Accept' => 'application/json']);
+
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
+            'is_success',
+            'status_code',
+            'message',
+            'data' => [
+                'id',
+                'user_id',
+                'created_at',
+                'updated_at',
+                'products'
+            ]
+        ]);
+    }
+
+    public function test_order_creation_with_invalid_product_id()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $data = [
+            'products' => [
+                ['product_id' => 999, 'quantity' => 1],
+            ],
+        ];
+
+        $response = $this->post('/api/v1/orders', $data, ['Accept' => 'application/json']);
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'is_success' => false,
+            'status_code' => 422,
+        ]);
+    }
+
+    public function test_order_creation_with_zero_quantity()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $product = Product::create(['name' => 'Product 1']);
+        $ingredient = Ingredient::create(['name' => 'Ingredient 1', 'total_amount' => 100, 'current_amount' => 100]);
+        $product->ingredients()->attach($ingredient->id, ['amount' => 10]);
+
+        $data = [
+            'products' => [
+                ['product_id' => $product->id, 'quantity' => 0],
+            ],
+        ];
+
+        $response = $this->post('/api/v1/orders', $data, ['Accept' => 'application/json']);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_order_creation_with_negative_quantity()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $product = Product::create(['name' => 'Product 1']);
+        $ingredient = Ingredient::create(['name' => 'Ingredient 1', 'total_amount' => 100, 'current_amount' => 100]);
+        $product->ingredients()->attach($ingredient->id, ['amount' => 10]);
+
+        $data = [
+            'products' => [
+                ['product_id' => $product->id, 'quantity' => -1],
+            ],
+        ];
+
+        $response = $this->post('/api/v1/orders', $data, ['Accept' => 'application/json']);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_order_creation_without_authentication()
+    {
+        $product = Product::create(['name' => 'Product 1']);
+        $ingredient = Ingredient::create(['name' => 'Ingredient 1', 'total_amount' => 100, 'current_amount' => 100]);
+        $product->ingredients()->attach($ingredient->id, ['amount' => 10]);
+
+        $data = [
+            'products' => [
+                ['product_id' => $product->id, 'quantity' => 1],
+            ],
+        ];
+
+        $response = $this->post('/api/v1/orders', $data, ['Accept' => 'application/json']);
+
+        $response->assertStatus(401);
+        $response->assertJson([
+            'is_success' => false,
+            'status_code' => 401,
+        ]);
+    }
 }

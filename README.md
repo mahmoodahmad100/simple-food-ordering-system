@@ -261,4 +261,4 @@ The system automatically monitors ingredient stock levels and sends email alerts
 ![Low Stock Alert Email](low_stock_alert_email.png)
 
 ## Improvements
-One of the main improvements if I would to spend more time on the project is using the [API Resources](https://laravel.com/docs/12.x/eloquent-resources) in creating the order response.
+One of the main improvements if I would to spend more time on the project is using the [API Resources](https://laravel.com/docs/12.x/eloquent-resources) in creating the order response, in addition to that make the time complexity in `IngredientService -> updateStock` to be `O(n)`.

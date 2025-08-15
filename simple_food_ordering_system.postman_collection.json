@@ -1,0 +1,288 @@
+{
+	"info": {
+		"_postman_id": "6ffc2f5a-9f7c-4c86-8bae-6781a22dbc4d",
+		"name": "Simple Food Ordering System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6359426"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the JSON response",
+									"var responseJson = pm.response.json();",
+									"",
+									"// Set the token as a collection variable",
+									"pm.collectionVariables.set(\"token\", responseJson.data.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"customer@example.com\",\n    \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"customer@example.com\",\n    \"password\": \"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/auth/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8080"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.4.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 10 Aug 2025 12:41:31 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"is_success\": true,\n    \"status_code\": 200,\n    \"message\": \"Success.\",\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Test Customer\",\n        \"email\": \"customer@example.com\",\n        \"email_verified_at\": null,\n        \"created_at\": \"2025-08-10T11:08:07.000000Z\",\n        \"updated_at\": \"2025-08-10T11:08:07.000000Z\",\n        \"token\": \"15|IpUQrdnyIDR1vm7FHSbVnNfWXcLZvWxvQg2egjgj43015204\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "New Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"products\": [\n        {\n            \"product_id\": 1,\n            \"quantity\": 3\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"products\": [\n        {\n            \"product_id\": 1,\n            \"quantity\": 3\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/orders",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"orders"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Host",
+									"value": "localhost:8080"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/8.4.11"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 15 Aug 2025 07:14:41 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"is_success\": true,\n    \"status_code\": 201,\n    \"message\": \"Order created successfully\",\n    \"data\": {\n        \"user_id\": 1,\n        \"updated_at\": \"2025-08-15T07:14:41.000000Z\",\n        \"created_at\": \"2025-08-15T07:14:41.000000Z\",\n        \"id\": 13,\n        \"products\": [\n            {\n                \"id\": 1,\n                \"name\": \"Burger\",\n                \"created_at\": \"2025-08-14T16:09:48.000000Z\",\n                \"updated_at\": \"2025-08-14T16:09:48.000000Z\",\n                \"pivot\": {\n                    \"order_id\": 13,\n                    \"product_id\": 1,\n                    \"quantity\": 3\n                },\n                \"ingredients\": [\n                    {\n                        \"id\": 1,\n                        \"name\": \"Beef\",\n                        \"uom\": \"g\",\n                        \"total_amount\": \"20000.00\",\n                        \"current_amount\": 14150,\n                        \"is_low_amount_alert_email_sent\": 0,\n                        \"created_at\": \"2025-08-14T16:09:48.000000Z\",\n                        \"updated_at\": \"2025-08-15T07:14:41.000000Z\",\n                        \"pivot\": {\n                            \"product_id\": 1,\n                            \"ingredient_id\": 1,\n                            \"amount\": 150\n                        }\n                    },\n                    {\n                        \"id\": 2,\n                        \"name\": \"Cheese\",\n                        \"uom\": \"g\",\n                        \"total_amount\": \"5000.00\",\n                        \"current_amount\": 3830,\n                        \"is_low_amount_alert_email_sent\": 0,\n                        \"created_at\": \"2025-08-14T16:09:48.000000Z\",\n                        \"updated_at\": \"2025-08-15T07:14:41.000000Z\",\n                        \"pivot\": {\n                            \"product_id\": 1,\n                            \"ingredient_id\": 2,\n                            \"amount\": 30\n                        }\n                    },\n                    {\n                        \"id\": 3,\n                        \"name\": \"Onion\",\n                        \"uom\": \"g\",\n                        \"total_amount\": \"1000.00\",\n                        \"current_amount\": 220,\n                        \"is_low_amount_alert_email_sent\": 1,\n                        \"created_at\": \"2025-08-14T16:09:48.000000Z\",\n                        \"updated_at\": \"2025-08-15T07:14:41.000000Z\",\n                        \"pivot\": {\n                            \"product_id\": 1,\n                            \"ingredient_id\": 3,\n                            \"amount\": 20\n                        }\n                    }\n                ]\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

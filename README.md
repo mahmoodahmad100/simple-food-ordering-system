@@ -12,12 +12,24 @@ A Laravel-based food ordering system that manages products, ingredients, orders,
 - **Email Notifications**: Queued email alerts for low stock ingredients
 - **API-First Design**: RESTful API endpoints for all operations
 
+## Note Before heading to the below sections:
+
+You can run the app by using **docker** (using Laravel Sail):
+
+  ```bash
+  ./vendor/bin/sail up
+  ```
+ and then you can use artisan commands like this:
+
+  ```bash
+  ./vendor/bin/sail artisan ...
+  ```
+
 ## Prerequisites
 
 - PHP 8.1 or higher
 - Composer
 - MySQL/PostgreSQL/SQLite
-- Node.js & NPM (for frontend assets if needed)
 
 ## Installation & Setup
 
@@ -32,18 +44,13 @@ A Laravel-based food ordering system that manages products, ingredients, orders,
    composer install
    ```
 
-3. **Install Node.js dependencies (optional)**
-   ```bash
-   npm install
-   ```
-
-4. **Environment setup**
+3. **Environment setup**
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
 
-5. **Configure your database in `.env`**
+4. **Configure your database in `.env`**
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
@@ -55,7 +62,7 @@ A Laravel-based food ordering system that manages products, ingredients, orders,
    # Optional: Configure stock threshold percentage (default: 50)
    STOCK_THRESHOLD_PERCENTAGE=50
    
-   # Configure mail settings for low stock alerts
+   # Optaionl (Mailpit, if you are going to use Laravel Sail): Configure mail settings for low stock alerts
    MAIL_MAILER=smtp
    MAIL_HOST=your_smtp_host
    MAIL_PORT=587
@@ -66,27 +73,29 @@ A Laravel-based food ordering system that manages products, ingredients, orders,
    MAIL_FROM_NAME="${APP_NAME}"
    ```
 
-6. **Run database migrations**
+5. **Run database migrations and seed it with sample data**
    ```bash
-   php artisan migrate
+   php artisan migrate:refresh --seed
    ```
 
-7. **Seed the database with sample data**
-   ```bash
-   php artisan db:seed
-   ```
-
-8. **Start the development server**
+6. **Start the development server**
    ```bash
    php artisan serve
    ```
 
-## API Documentation
+7. **Run queue workers**
+   ```bash
+   php artisan queue:work
+   ```
 
 ### Base URL
 ```
 http://localhost:8080/api/v1
 ```
+
+* You can view the API docs from [here](https://documenter.getpostman.com/view/6359426/2sB3BHjnxW)
+
+* Also you can import `simple_food_ordering_system.postman_collection.json` in postman (note that after login, no need to copy the `token` as it will be set automatically due to the Post-response script that I have added).
 
 ### Authentication
 All API endpoints require authentication using Laravel Sanctum. Include the Bearer token in the Authorization header:
@@ -251,9 +260,5 @@ The system automatically monitors ingredient stock levels and sends email alerts
 
 ![Low Stock Alert Email](low_stock_alert_email.png)
 
-## Configuration
-
-Run queue workers:
-```bash
-php artisan queue:work
-```
+## Improvements
+One of the main improvements if I would to spend more time on the project is using the [API Resources](https://laravel.com/docs/12.x/eloquent-resources) in creating the order response.
